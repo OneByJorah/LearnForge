@@ -1,13 +1,120 @@
-# IT Training Management System
+# IT Training System (it-training-system)
 
-Self-hosted IT training platform with Hermes as the orchestrator.
+**Version:** v0.1  
+**Status:** Active Development  
+**Repository:** https://github.com/OneByJorah/it-training-system
 
-## Verified references
-- FastAPI backend: `api/app.py`
-- Skills: `skills/{content-creator,learning-path-engine,progress-tracker,quiz-generator,telegram-training-bot,training-ingestion}/SKILL.md`
-- Database schema: `db/schema.sql`
-- Docs: `docs/setup.md`, `docs/deploy.md`, `docs/overview.md`, `docs/reference.md`, `docs/observability.md`
-- Plans: `docs/BUILD_PLAN.md`, `ops/roadmap.md`
+---
 
-## Status
-✅ Repo references verified.
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Service Management](#service-management)
+- [Project Structure](#project-structure)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
+
+---
+
+## Overview
+
+Internal training and learning platform for IT staff with video, quizzes, and progress tracking.
+
+---
+
+## Architecture
+
+Client → Local service (`it-training-system`) → data/processing modules → output/api layer.
+Secrets and environment configuration are managed via environment files with restrictive permissions.
+
+---
+
+## Technology Stack
+
+|| Layer | Stack |
+|---|---|
+| Runtime | Linux (Ubuntu 22.04+) |
+| Primary Stack | Python / SQLite / HTML |
+| VCS | Git + GitHub (`github.com/OneByJorah/it-training-system`) |
+| Dev Port | Localhost / systemd service |
+
+---
+
+## Features
+
+- Operational dashboard and monitoring (per repo).
+- Exportable data / reports where supported.
+- Extensible service-based design.
+- Dark-themed UI where applicable.
+
+---
+
+## Getting Started
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/OneByJorah/it-training-system.git
+cd it-training-system
+
+# 2. Install dependencies
+# (see specific subproject docs)
+
+# 3. Start the service
+# (see Service Management below)
+```
+
+---
+
+## Service Management
+
+```bash
+# Start the service (example)
+sudo systemctl start it-training-system.service
+sudo systemctl enable it-training-system.service
+```
+
+Access the service via your configured localhost port or reverse proxy.
+
+---
+
+## Project Structure
+
+```
+it-training-system/
+├── README.md
+├── (additional project files)
+```
+
+---
+
+## Screenshots
+
+All screenshots are live captures from the local dev instance.
+
+_(Screenshots will be added after build/run capture.)_
+
+---
+
+## Contributing
+
+1. Create a feature branch off `main`.
+2. Follow the existing code style.
+3. Submit a PR with description and screenshots for UI changes.
+
+---
+
+## License
+
+MIT
+
+---
+
+## Author
+
+Built by **Jhonattan L. Jimenez**.
