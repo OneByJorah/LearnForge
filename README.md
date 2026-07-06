@@ -1,83 +1,74 @@
+<!-- j1-brand:v2 -->
 <div align="center">
-  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white">
-  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white">
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white">
-</div>
 
-<br>
+# IT Training System
 
-<div align="center">
-  <h1>🎓 IT Training System</h1>
-  <p><strong>Self-Hosted IT Training Management Platform</strong></p>
-  <p>Structured learning paths, automated quizzes, progress tracking, and video ingestion</p>
-  <p>
-    <a href="#-features">Features</a> •
-    <a href="#-quick-start">Quick Start</a> •
-    <a href="#-architecture">Architecture</a> •
-    <a href="#-tech-stack">Tech Stack</a>
-  </p>
+A self-hosted platform for managing IT training — structured learning paths, AI-generated quizzes, trainee progress tracking, and video ingestion.
+
+[![GitHub](https://img.shields.io/badge/github-OneByJorah%2Fit--training--system-FFB300?style=for-the-badge&labelColor=0d0d0c)](https://github.com/OneByJorah/it-training-system)
+[![License](https://img.shields.io/badge/license-MIT-FFB300?style=for-the-badge&labelColor=0d0d0c)](LICENSE)
+[![Language](https://img.shields.io/badge/Python-FFB300?style=for-the-badge&labelColor=0d0d0c)](https://python.org)
+[![Built by](https://img.shields.io/badge/built%20by-JorahOne%20LLC-FFB300?style=for-the-badge&labelColor=0d0d0c)](https://github.com/OneByJorah)
+
 </div>
 
 ---
 
-## ✨ Features
+## Why This Exists
 
-- **Learning Paths** — Structured IT training curricula
-- **Automated Quizzes** — AI-generated quiz synthesis with Ollama
-- **Progress Tracking** — Monitor trainee progress and completion
-- **Video Ingestion** — Training media ingestion via MinIO
-- **Semantic Search** — Qdrant vector search for training content
-- **Telegram Bot** — Notifications and interaction
-- **FastAPI Backend** — Modern, async Python backend
+Building and maintaining IT training programs is slow — writing quiz questions by hand, tracking who's completed what, and keeping content organized across teams. This system automates the heavy parts: AI-generated quizzes via Ollama, structured learning paths with progress tracking, video content managed through MinIO, and semantic search over training materials powered by Qdrant.
 
-## 🚀 Quick Start
+## Key Features
+
+| Feature | Why It Matters |
+|---|---|
+| AI-generated quizzes | Ollama creates questions from training content automatically |
+| Structured learning paths | Define curricula with prerequisites and milestones |
+| Trainee progress tracking | See who's completed what, across the whole org |
+| Video ingestion (MinIO) | Upload and serve training videos from S3-compatible storage |
+| Semantic search (Qdrant) | Find training materials by meaning, not just keywords |
+| Hermes AgentOS integration | Training system plugs into your existing agent ecosystem |
+
+## Quick Start
 
 ```bash
 git clone https://github.com/OneByJorah/it-training-system.git
 cd it-training-system
-cp compose.env.example .env
-# Edit .env with your configuration
-docker-compose up -d
+cp compose.env.example .env   # configure database, Ollama, MinIO, etc.
+docker compose up -d
 ```
 
-API available at **http://localhost:8080**.
+The API will be available at `http://localhost:8080`.
 
-## 🏗️ Architecture
+## Architecture
 
 ```
-it-training-system/
-├── api/                       # FastAPI backend
-├── db/                        # Database models & migrations
-├── ops/                       # Operations & deployment
-├── scripts/                   # Utility scripts
-├── skills/                    # Hermes agent skills
-├── docs/                      # Documentation
-├── docker-compose.yml         # Deployment
-├── Makefile                   # Build automation
-└── README.md
+┌──────────┐     ┌──────────┐     ┌──────────────┐
+│  Browser  │────▶│  FastAPI  │────▶│  PostgreSQL   │
+│  (UI)     │     │  Backend   │     │  / SQLite     │
+└──────────┘     └──────┬───┘     └──────────────┘
+                         │
+              ┌──────────┼──────────┐
+              ▼          ▼          ▼
+       ┌──────────┐ ┌──────────┐ ┌──────────┐
+       │  Qdrant  │ │  MinIO   │ │  Ollama  │
+       │  Vector   │ │  Video   │ │  AI Quiz  │
+       │  Search   │ │  Storage  │ │  Engine   │
+       └──────────┘ └──────────┘ └──────────┘
 ```
 
-## 🛠️ Tech Stack
+## Documentation
 
-| Component | Technology |
-|-----------|------------|
-| Backend | Python, FastAPI, SQLAlchemy |
-| Database | SQLite / PostgreSQL |
-| Vector Store | Qdrant |
-| Object Storage | MinIO (S3-compatible) |
-| LLM | Ollama |
-| Notifications | Telegram Bot |
-| Agents | Hermes AgentOS |
-| Deployment | Docker Compose |
-
-## 📄 License
-
-MIT © Jhonattan L. Jimenez
+| Doc | Description |
+|---|---|
+| [Setup Guide](docs/setup.md) | Deployment and configuration |
+| [Content Management](docs/content.md) | Creating learning paths and uploading materials |
+| [Quiz Engine](docs/quizzes.md) | Configuring AI-generated assessments |
 
 ---
 
-<div align="center">
-  <p>📚 Train your team, self-hosted</p>
-  <p><a href="https://github.com/OneByJorah">@OneByJorah</a></p>
-</div>
+## License
+
+MIT © JorahOne, LLC — see [LICENSE](LICENSE)
+
+<sub>Part of the JorahOne infrastructure ecosystem.</sub>
