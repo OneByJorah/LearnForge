@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white">
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white">
 </div>
 
 <br>
@@ -52,7 +52,7 @@ API available at **http://localhost:8080**.
 ```
 it-training-system/
 ├── api/                       # FastAPI backend
-├── db/                        # Database models & migrations
+├── db/                        # SQLite schema definition
 ├── ops/                       # Operations & deployment
 ├── scripts/                   # Utility scripts
 ├── skills/                    # Hermes agent skills
@@ -67,7 +67,7 @@ it-training-system/
 | Component | Technology |
 |-----------|------------|
 | Backend | Python, FastAPI, SQLAlchemy |
-| Database | SQLite / PostgreSQL |
+| Database | SQLite (PostgreSQL upgrade path) |
 | Vector Store | Qdrant |
 | Object Storage | MinIO (S3-compatible) |
 | LLM | Ollama |
