@@ -26,9 +26,8 @@ It is aimed at IT teams onboarding new hires, MSPs certifying technicians on int
 ## Quick Start
 
 ```bash
-git clone https://github.com/OneByJorah/LearnForge.git
-cd LearnForge
 cp compose.env.example .env    # set MINIO_ROOT_PASSWORD and SECRET_KEY
+export DOCKER_HOST=unix:///var/run/docker.sock
 docker compose up -d
 ```
 
