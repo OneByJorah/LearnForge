@@ -89,9 +89,30 @@ async def upload_video(title: str, uploaded_by: int, file: UploadFile = File(...
     if not file.filename.lower().endswith((".mp4", ".mov", ".avi", ".mkv", ".webm")):
         raise HTTPException(status_code=400, detail="unsupported video format")
 
-    path = f"/uploads/{file.filename}"
+    # Sanitize filename to prevent path traversal
+    filename = file.filename
+    if filename:
+        filename = filename.replace("..", "").replace("\\", "").replace("/", "")
+        # Generate safe filename with timestamp to avoid collisions
+        import time
+        timestamp = int(time.time())
+        safe_filename = f"{timestamp}_{filename}"
+    else:
+        raise HTTPException(status_code=400, detail="invalid filename")
+
+    path = f"/uploads/{safe_filename}"
+    
+    # Validate directory exists or create it
+    import os
+    os.makedirs("/uploads", exist_ok=True)
+    
     with open(path, "wb") as f:
-        f.write(await file.read())
+        # Read and validate file content size
+        content = await file.read()
+        # Limit file size to 500MB to prevent abuse
+        if len(content) > 500 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="file too large (max 500MB)")
+        f.write(content)
 
     video = Video(title=title, file_path=path, uploaded_by=uploaded_by)
     db.add(video)
@@ -195,12 +216,26 @@ def team_overview(manager_id: int = Query(...), db: Session = Depends(get_db)):
 @router.get("/events/user/{user_id}")
 def user_events(user_id: int, db: Session = Depends(get_db)):
     events = db.query(UserEvent).filter(UserEvent.user_id == user_id).order_by(UserEvent.created_at.desc()).limit(50).all()
-    return [{"id": e.id, "event_type": e.event_type, "metadata_json": e.metadata_json, "created_at": e.created_at} for e in events]
+    return [
+        {
+            "id": e.id, 
+            "event_type": e.event_type, 
+            "metadata_json": e.metadata_json or "{}",
+            "created_at": e.created_at
+        } 
+        for e in events
+    ]
 
 
 @router.post("/events")
 def record_event(user_id: int, event_type: str, metadata: dict | None = None, db: Session = Depends(get_db)):
-    event = UserEvent(user_id=user_id, event_type=event_type, metadata_json=str(metadata or {}))
+    # Sanitize metadata to prevent XSS and injection
+    import json
+    try:
+        sanitized_metadata = json.dumps(metadata or {}, ensure_ascii=False)
+    except (TypeError, ValueError):
+        sanitized_metadata = "{}"
+    event = UserEvent(user_id=user_id, event_type=event_type, metadata_json=sanitized_metadata)
     db.add(event)
     db.commit()
     db.refresh(event)
